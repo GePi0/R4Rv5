@@ -1,0 +1,679 @@
+/* =========================================================
+   R4R v5 — Estilos finales UI
+   Consolidado completo | Última revisión: 2025‑11‑17
+   ========================================================= */
+
+/* ==== Reset y base general ==== */
+body {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  font-family: "Inter", sans-serif;
+  background: #222;
+  color: #eee;
+  overflow: hidden;
+}
+
+/* ============================== */
+/*           SIDEBAR              */
+/* ============================== */
+aside {
+  width: 260px;
+  background: #111;
+  padding: 10px;
+  border-right: 1px solid #333;
+  overflow-y: overlay;
+  scrollbar-width: thin;
+  scrollbar-color: #444 #111;
+  padding-right: 18px; /* separa los menús ⋮ de la barra */
+}
+
+/* Scrollbar consistente (sin expansión al hover) */
+aside::-webkit-scrollbar {
+  width: 8px !important;
+  background: #111;
+}
+
+aside::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 4px;
+  border: 2px solid #111; /* evita crecida perceptible */
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* solo color, mismo tamaño */
+}
+
+aside h3 {
+  margin: 0 0 10px;
+  font-size: 1em;
+  color: #42a1ff;
+}
+
+.phaseNode {
+  padding-left: 18px;
+  cursor: pointer;
+  color: #bbb;
+  font-size: 0.92em;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.phaseNode:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* ==== Proyecto activo y fase activa ==== */
+details.active > summary {
+  background: #2e2e2e;
+  border-radius: 4px;
+}
+
+details.active > summary span {
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+.phaseNode.active {
+  background: #3a3a3a;
+  border-radius: 4px;
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+/* ==== Menú contextual (⋮) ==== */
+.projMenu {
+  margin-left: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-weight: bold;
+  position: relative;
+  z-index: 10; /* eleva el icono sobre scrollbar */
+}
+
+details:hover .projMenu {
+  opacity: 1;
+}
+
+.projMenu:focus {
+  outline: none;
+}
+
+.contextMenu {
+  position: absolute;
+  background: #222;
+  border: 1px solid #444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  min-width: 120px;
+  z-index: 9999;
+  right: 18px; /* separa del borde */
+}
+
+.ctxItem {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.ctxItem:hover {
+  background: #333;
+  color: #4a90e2;
+}
+
+/* ============================== */
+/*           MAIN LAYOUT          */
+/* ============================== */
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ==== Header ==== */
+#header {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: #191919;
+  border-bottom: 1px solid #444;
+}
+
+/* ==== Chatbox ==== */
+#chatbox {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 12px 18px;
+  background: #222;
+}
+
+/* ============================== */
+/*           MENSAJES             */
+/* ============================== */
+.user,
+.bot {
+  position: relative;
+  display: block;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  max-width: 80%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: fadeInChat 0.25s ease forwards;
+}
+
+@keyframes fadeInChat {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user {
+  margin-left: auto;
+  background: #2d2f3a;
+  border: 1px solid #3d4053;
+  color: #9cdcff;
+}
+
+.bot {
+  margin-right: auto;
+  background: #2a2a2a;
+  border: 1px solid #3c3c3c;
+  color: #ececec;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Barra lateral visual en mensajes del asistente */
+.bot::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  background: #4a90e2;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* Markdown y formato */
+.bot h1,
+.bot h2,
+.bot h3,
+.bot h4 {
+  color: #4a90e2;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.bot p {
+  margin: 6px 0;
+  line-height: 1.6;
+}
+
+.bot ul,
+.bot ol {
+  margin-left: 20px;
+  padding-left: 10px;
+}
+
+.bot li {
+  margin-bottom: 6px;
+}
+
+.bot blockquote {
+  border-left: 3px solid #4a90e2;
+  margin: 8px 0;
+  padding-left: 10px;
+  color: #bbb;
+  font-style: italic;
+}
+
+/* ==== Bloques y código ==== */
+pre {
+  background: #1e1e1e !important;
+  border-radius: 6px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  border: 1px solid #333;
+  margin: 8px 0;
+  font-size: 0.9em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+code {
+  background: #2e2e2e;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  color: #9cdcff;
+}
+
+.copyBtn {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+pre:hover .copyBtn {
+  opacity: 1;
+}
+
+/* ============================== */
+/*           INPUT AREA           */
+/* ============================== */
+#inputArea {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #222;
+  border-top: 1px solid #333;
+  position: sticky;
+  bottom: 0;
+}
+
+#message,
+#inputArea textarea {
+  flex: 1;
+  resize: none;
+  overflow-y: hidden;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  font-family: inherit;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  min-height: 36px;
+  max-height: 220px;
+  transition: height 0.2s ease;
+}
+
+button {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+button:disabled {
+  background: #555;
+  cursor: default;
+}
+
+/* ============================== */
+/*           ANIMACIONES          */
+/* ============================== */
+details summary {
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+details[open] {
+  animation: expand 0.25s ease-out;
+}
+details:not([open]) {
+  animation: collapse 0.25s ease-out;
+}
+
+@keyframes expand {
+  0% {
+    opacity: 0.5;
+    transform: scaleY(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+@keyframes collapse {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scaleY(0.96);
+  }
+}
+
+/* ============================== */
+/*           MODAL BLUR            */
+/* ============================== */
+#modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modalBox {
+  background: #1c1c1c;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 20px 24px;
+  max-width: 380px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  color: #eee;
+  animation: fadeIn 0.2s ease-in;
+}
+
+.modalBox h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+  color: #fff;
+}
+
+.modalBox p {
+  font-size: 0.9em;
+  color: #aaa;
+  margin-bottom: 18px;
+}
+
+.modalBtns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modalBtns button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.modalCancel {
+  background: #333;
+  color: #eee;
+}
+
+.modalCancel:hover {
+  background: #444;
+}
+
+.modalDelete {
+  background: #c0392b;
+  color: #fff;
+  font-weight: bold;
+}
+
+.modalDelete:hover {
+  background: #e74c3c;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================== */
+/*           TOAST/FEEDBACK        */
+/* ============================== */
+#toastContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+.toast {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-left: 5px solid #4ade80;
+  border-radius: 6px;
+  padding: 10px 16px;
+  color: #eee;
+  font-size: 0.9em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.error {
+  border-left-color: #e74c3c;
+}
+
+/* ============================== */
+/*        TYPING LOADER (···)      */
+/* ============================== */
+.typing-loader {
+  display: inline-block;
+  position: relative;
+  width: 32px;
+  height: 12px;
+  margin-left: 4px;
+}
+
+.typing-loader span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  background: #7fcf7f;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: typingDots 1.2s infinite ease-in-out;
+}
+
+.typing-loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+.typing-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingDots {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================== */
+/*        META DE RESPUESTA       */
+/* ============================== */
+.response-meta {
+  font-size: 0.75em;
+  color: #aaa;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.bot:hover .response-meta {
+  opacity: 1 !important;
+}
+
+.response-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.response-meta.fade-out {
+  opacity: 0;
+}
+
+.inline-loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 24px;
+}
+
+/* ============================== */
+/*           UX EXTRAS 11‑25       */
+/* ============================== */
+.projectItem,
+details summary span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+details:not(:hover) .projMenu {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.reply-placeholder {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+/* ==== R4R Sidebar Branding ==== */
+.sidebarHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.sidebarTitle {
+  font-size: 1.1em;
+  color: #4a90e2;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.projectHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+aside h3,
+.projectHeader span {
+  font-size: 0.95em;
+  font-weight: 400; /* elimina negrita */
+  color: #eee;      /* mismo tono para todo */
+}
+
+/* desactivar azul y negrita de activos */
+details.active > summary,
+details.active > summary span,
+.phaseNode.active {
+  color: #eee;
+  font-weight: 400;
+}
+
+/* icono ⋮ constante y neutro */
+.projMenu {
+  color: #aaa;
+  opacity: 0.8;
+}
+details:hover .projMenu {
+  opacity: 1;
+  color: #aaa; /* no azul */
+}
+
+/* 🔹 Botón "Nuevo Proyecto" en header del sidebar */
+aside h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#newProjectBtn {
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #4a90e2;
+  transition: color 0.25s ease;
+}
+
+#newProjectBtn:hover {
+  color: #7dc4ff;
+}
+
+/* ========== Ajuste jerárquico de fuentes del sidebar ========== */
+
+/* "Proyectos" → más pequeño que fases, sirve solo como encabezado */
+.projectHeader span {
+  font-size: 0.8em;  /* menor que fases/main */
+  font-weight: 400;
+  color: #bbb;
+}
+
+/* Cada nombre de proyecto listado */
+details summary span {
+  font-size: 0.85em;  /* pequeño, pero mayor que main/fase */
+  color: #eee;
+  font-weight: 400;
+}
+
+/* Fases y main (mantienen tamaño base actual) */
+.phaseNode {
+  font-size: 0.8em;
+  color: #ccc;
+}
+
+/* --- Espaciado entre proyectos en el sidebar --- */
+.projectList details {
+  margin-bottom: 6px; /* Añade aire entre proyectos */
+}
+.projectList details:last-of-type {
+  margin-bottom: 0; /* Evita exceso al final */
+}
+
+#header {
+  font-size: 0.9em; /* igual que proyectos */
+}
